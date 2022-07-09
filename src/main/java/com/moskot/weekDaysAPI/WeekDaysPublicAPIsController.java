@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,12 +25,9 @@ public class WeekDaysPublicAPIsController {
     }
 
     @GetMapping(value = "/getWeekDay", params = {"dateTo", "dateFrom"})
-    ResponseEntity<List<ResponseTemplate>> getWeekDays(@RequestParam String dateTo,
-                                                       @RequestParam String dateFrom) {
-        List<ResponseTemplate> responseTemplates = new ArrayList<>() {{
-            add(dc.checkDate(dateTo));
-            add(dc.checkDate(dateFrom));
-        }};
+    ResponseEntity<List<ResponseTemplate>> getWeekDays(@RequestParam String dateFrom,
+                                                       @RequestParam String dateTo) {
+        List<ResponseTemplate> responseTemplates = dc.checkPeriod(dateFrom, dateTo);
         return new ResponseEntity<>(responseTemplates, HttpStatus.OK);
     }
 }
